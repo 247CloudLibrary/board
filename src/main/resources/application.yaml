@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    active: local
+
+
+---
+spring:
+  application:
+    name: board-local
+  config:
+    activate:
+      on-profile: local
+
+
+---
+spring:
+  application:
+    name: board-dev
+  config:
+    activate:
+      on-profile: dev
+
+---
+spring:
+  application:
+    name: board-prod
+  config:
+    activate:
+      on-profile: prod
