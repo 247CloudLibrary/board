@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,6 @@ import java.util.List;
 @Api(value="보드 API")
 @RequestMapping("/v1/boards")
 public class BoardController {
-
-
 
     @PostMapping("")
     @ApiOperation("게시글 등록")
@@ -33,6 +32,7 @@ public class BoardController {
                 .contents(request.getContents())
                 .adminName("관리자")
                 .libraryName(request.getLibraryName())
+                .createdAt(LocalDateTime.now())
                 .build();
 
         return ResponseEntity.ok(new ApiResponseView<>(mockResult));
@@ -51,7 +51,10 @@ public class BoardController {
                 .title("API테스트용 게시글 제목")
                 .contents("API테스트용 게시글 내용")
                 .libraryName("별빛도서관")
-                .readCounts(10L).build();
+                .readCounts(10L)
+                .createdAt(LocalDateTime.of(2022, 3, 2, 18, 32, 0))
+                .updatedAt(LocalDateTime.of(2022, 3, 3, 18, 32, 0))
+                .build();
         boardList.add(mockResult);
 
         BoardView mockResult2 = BoardView.builder()
@@ -62,6 +65,8 @@ public class BoardController {
                 .title("API테스트용 게시글 제목2")
                 .contents("API테스트용 게시글 내용2")
                 .libraryName("별빛도서관2")
+                .createdAt(LocalDateTime.of(2022, 3, 2, 18, 32, 0))
+                .updatedAt(LocalDateTime.of(2022, 3, 3, 18, 32, 0))
                 .readCounts(10L).build();
         boardList.add(mockResult2);
 
@@ -79,7 +84,10 @@ public class BoardController {
                 .title("API테스트용 게시글 제목")
                 .contents("API테스트용 게시글 내용")
                 .libraryName("별빛도서관")
-                .readCounts(10L).build();
+                .readCounts(10L)
+                .createdAt(LocalDateTime.of(2022, 3, 2, 18, 32, 0))
+                .updatedAt(LocalDateTime.of(2022, 3, 3, 18, 32, 0))
+                .build();
         return ResponseEntity.ok(new ApiResponseView<>(mockResult));
     }
 
@@ -95,6 +103,7 @@ public class BoardController {
                 .title(request.getTitle())
                 .contents(request.getContents())
                 .libraryName("별빛도서관")
+                .updatedAt(LocalDateTime.now())
                 .readCounts(10L).build();
 
         return ResponseEntity.ok(new ApiResponseView<>(mockResult));

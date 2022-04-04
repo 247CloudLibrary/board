@@ -1,11 +1,15 @@
 package com.cloudlibrary.board.ui.view.board;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 @Builder //추후 삭제
@@ -29,6 +33,11 @@ public class BoardView {
     private final String contents;
     @ApiModelProperty(value="조회수")
     private final Long readCounts;
-
+    @ApiModelProperty(value="작성일자")
+    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
+    private final LocalDateTime createdAt;
+    @ApiModelProperty(value="수정일자")
+    @JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
+    private final LocalDateTime updatedAt;
 
 }
