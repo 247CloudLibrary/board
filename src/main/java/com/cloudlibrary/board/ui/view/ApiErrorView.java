@@ -38,7 +38,7 @@ public class ApiErrorView {
             return new Error(messageType.name(), messageType.getMessage());
         }
 
-        public static Error errorWithMessageTypeAndMessage(MessageType messageType, String message){
+        public static Error errorWithMessageTypeAndMessage(MessageType messageType, String message) {
             return new Error(messageType.name(), message);
         }
 
@@ -46,15 +46,16 @@ public class ApiErrorView {
             return new Error(cloudLibraryException);
         }
 
-        public Error(String errorType, String errorMessage){
+        private Error(String errorType, String errorMessage) {
             this.errorType = errorType;
             this.errorMessage = errorMessage;
         }
 
-        private Error(CloudLibraryException cloudLibraryException){
+        private Error(CloudLibraryException cloudLibraryException) {
             this.errorType = ObjectUtils.isEmpty(cloudLibraryException.getType()) ? cloudLibraryException.getStatus().getReasonPhrase() :
                     cloudLibraryException.getType();
             this.errorMessage = cloudLibraryException.getMessage();
         }
     }
 }
+
