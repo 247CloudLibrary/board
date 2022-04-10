@@ -48,6 +48,8 @@ public class BoardEntity extends BaseTimeEntity {
                 .title(this.title)
                 .contents(this.contents)
                 .readCounts(this.readCounts)
+                .createdAt(super.getCreatedAt())
+                .updatedAt(super.getUpdatedAt())
                 .build();
 
     }
