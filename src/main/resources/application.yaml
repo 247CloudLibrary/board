@@ -1,7 +1,14 @@
 spring:
   profiles:
     active: local
-
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/board
+    driver-class-name: org.h2.Driver
+    username: sa
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
 
 ---
 spring:
