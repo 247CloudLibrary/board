@@ -3,18 +3,17 @@ package com.cloudlibrary.board.infrastructure.persistence.mysql.entity;
 
 import com.cloudlibrary.board.application.domain.Board;
 import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Setter
 @Getter
 @NoArgsConstructor
 @ToString
 @Entity
-public class BoardEntity {
+public class BoardEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,13 +35,7 @@ public class BoardEntity {
     @Column(length = 500)
     private String contents;
 
-
     private long readCounts;
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
 
 
     public Board toBoard(){
@@ -55,8 +48,8 @@ public class BoardEntity {
                 .title(this.title)
                 .contents(this.contents)
                 .readCounts(this.readCounts)
-                .createdAt(this.createdAt)
-                .updatedAt(this.updatedAt)
+                .createdAt(super.getCreatedAt())
+                .updatedAt(super.getUpdatedAt())
                 .build();
 
     }
@@ -70,8 +63,6 @@ public class BoardEntity {
         this.title = board.getTitle();
         this.contents = board.getContents();
         this.readCounts= board.getReadCounts();
-        this.createdAt = board.getCreatedAt();
-        this.updatedAt =board.getUpdatedAt();
 
     }
 }

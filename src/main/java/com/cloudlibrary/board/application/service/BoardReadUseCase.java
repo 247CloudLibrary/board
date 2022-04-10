@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BoardReadUseCase {
-    //단일 조회
+
     FindBoardResult getBoard(BoardFindQuery query);
-    //목록 조회
-    List<FindBoardResult> getBoardAll();
+
+    List<FindBoardResult> getBoardAllList();
 
 
     @EqualsAndHashCode(callSuper = false)
