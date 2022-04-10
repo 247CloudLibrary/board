@@ -3,7 +3,7 @@ package com.cloudlibrary.board.application.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import nonapi.io.github.classgraph.json.Id;
+import java.time.LocalDateTime;
 
 @Getter
 @ToString
@@ -17,5 +17,6 @@ public class Board {
     private final String contents;
     private final String libraryName;
     private final Long readCounts;
-
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
 }
