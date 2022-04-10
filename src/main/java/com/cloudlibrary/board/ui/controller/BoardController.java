@@ -10,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -22,98 +20,44 @@ public class BoardController {
 
     @PostMapping("")
     @ApiOperation("게시글 등록")
-    public ResponseEntity<ApiResponseView<BoardView>> createBoards(@RequestBody BoardCreateRequest request){
+    public ResponseEntity<ApiResponseView<Void>> createBoards(@RequestBody BoardCreateRequest request){
 
-        //도서관이 null일때도 생각하기
 
-        BoardView mockResult = BoardView.builder()
-                .type(request.getTitle())
-                .title(request.getType())
-                .contents(request.getContents())
-                .adminName("관리자")
-                .libraryName(request.getLibraryName())
-                .createdAt(LocalDateTime.now())
-                .build();
-
-        return ResponseEntity.ok(new ApiResponseView<>(mockResult));
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("")
     @ApiOperation("게시글 목록 조회")
     public ResponseEntity<ApiResponseView<List<BoardView>>> getBoardsAll() {
-        ArrayList<BoardView> boardList = new ArrayList<>();
 
-        BoardView mockResult = BoardView.builder()
-                .id(0)
-                .adminId(2L)
-                .adminName("관리자")
-                .type("공지사항")
-                .title("API테스트용 게시글 제목")
-                .contents("API테스트용 게시글 내용")
-                .libraryName("별빛도서관")
-                .readCounts(10L)
-                .createdAt(LocalDateTime.of(2022, 3, 2, 18, 32, 0))
-                .updatedAt(LocalDateTime.of(2022, 3, 3, 18, 32, 0))
-                .build();
-        boardList.add(mockResult);
 
-        BoardView mockResult2 = BoardView.builder()
-                .id(1)
-                .adminId(3L)
-                .adminName("관리자")
-                .type("공지사항2")
-                .title("API테스트용 게시글 제목2")
-                .contents("API테스트용 게시글 내용2")
-                .libraryName("별빛도서관2")
-                .createdAt(LocalDateTime.of(2022, 3, 2, 18, 32, 0))
-                .updatedAt(LocalDateTime.of(2022, 3, 3, 18, 32, 0))
-                .readCounts(10L).build();
-        boardList.add(mockResult2);
 
-        return ResponseEntity.ok(new ApiResponseView<>(boardList));
+        return ResponseEntity.ok().build();
+
     }
 
     @GetMapping("/{id}")
     @ApiOperation("게시글 상세 조회")
     public ResponseEntity<ApiResponseView<BoardView>> getBoard(@PathVariable("id") Long id){
-        BoardView mockResult = BoardView.builder()
-                .id(id)
-                .adminId(2L)
-                .adminName("관리자")
-                .type("공지사항")
-                .title("API테스트용 게시글 제목")
-                .contents("API테스트용 게시글 내용")
-                .libraryName("별빛도서관")
-                .readCounts(10L)
-                .createdAt(LocalDateTime.of(2022, 3, 2, 18, 32, 0))
-                .updatedAt(LocalDateTime.of(2022, 3, 3, 18, 32, 0))
-                .build();
-        return ResponseEntity.ok(new ApiResponseView<>(mockResult));
+
+        return ResponseEntity.ok().build();
+
     }
 
     @PutMapping("/{id}")
     @ApiOperation("게시글 수정")
     public ResponseEntity<ApiResponseView<BoardView>> updateBoard(@PathVariable("id") Long id, @RequestBody BoardUpdateRequest request){
 
-        BoardView mockResult = BoardView.builder()
-                .id(id)
-                .adminId(2L)
-                .adminName("관리자")
-                .type(request.getType())
-                .title(request.getTitle())
-                .contents(request.getContents())
-                .libraryName("별빛도서관")
-                .updatedAt(LocalDateTime.now())
-                .readCounts(10L).build();
 
-        return ResponseEntity.ok(new ApiResponseView<>(mockResult));
+        return ResponseEntity.ok().build();
+
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation("게시글 삭제")
     public ResponseEntity<ApiResponseView<Long>> deleteBoard(@PathVariable("id") Long id){
 
-       return ResponseEntity.ok(new ApiResponseView<>(id));
+        return ResponseEntity.ok().build();
     }
 }
 
