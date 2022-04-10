@@ -47,8 +47,11 @@ public class BoardController {
     @GetMapping("/{id}")
     @ApiOperation("게시글 상세 조회")
     public ResponseEntity<ApiResponseView<BoardView>> getBoard(@PathVariable("id") Long id){
+        var query = new BoardReadUseCase.BoardFindQuery(id);
 
-        return ResponseEntity.ok().build();
+        var result = boardReadUseCase.getBoard(query);
+
+        return ResponseEntity.ok(new ApiResponseView<>(new BoardView(result)));
 
     }
 
