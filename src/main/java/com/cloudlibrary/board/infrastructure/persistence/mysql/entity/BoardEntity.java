@@ -2,11 +2,10 @@ package com.cloudlibrary.board.infrastructure.persistence.mysql.entity;
 
 
 import com.cloudlibrary.board.application.domain.Board;
-import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -27,14 +26,13 @@ public class BoardEntity extends BaseTimeEntity {
 
     private String type;
 
-    @NotNull
     @Column(length = 500)
     private String title;
 
-    @NotNull
-    @Column(length = 500)
+    @Column(length = 500 )
     private String contents;
 
+    @ColumnDefault("0")
     private long readCounts;
 
 
@@ -55,14 +53,19 @@ public class BoardEntity extends BaseTimeEntity {
     }
 
     public BoardEntity(Board board) {
-        this.id = board.getId();
         this.adminId = board.getAdminId();
         this.adminName = board.getAdminName();
         this.libraryName = board.getLibraryName();
         this.type = board.getType();
         this.title = board.getTitle();
         this.contents = board.getContents();
-        this.readCounts= board.getReadCounts();
 
+    }
+
+    /**
+     * 조회 수 증가
+     */
+    public void increaseHits(){
+        this.readCounts++;
     }
 }
