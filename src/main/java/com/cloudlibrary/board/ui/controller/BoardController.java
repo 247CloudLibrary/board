@@ -1,6 +1,10 @@
 package com.cloudlibrary.board.ui.controller;
 
+import com.cloudlibrary.board.application.service.BoardOperationUseCase;
 import com.cloudlibrary.board.application.service.BoardReadUseCase;
+import com.cloudlibrary.board.exception.CloudLibraryException;
+import com.cloudlibrary.board.exception.MessageType;
+import com.cloudlibrary.board.infrastructure.persistence.mysql.entity.BoardType;
 import com.cloudlibrary.board.ui.requestBody.BoardCreateRequest;
 import com.cloudlibrary.board.ui.requestBody.BoardUpdateRequest;
 import com.cloudlibrary.board.ui.view.ApiResponseView;
@@ -10,8 +14,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,16 +28,39 @@ import java.util.stream.Collectors;
 public class BoardController {
 
     private final BoardReadUseCase boardReadUseCase;
+    private final BoardOperationUseCase boardOperationUseCase;
 
     @Autowired
-    public BoardController(BoardReadUseCase boardReadUseCase) {
+    public BoardController(BoardReadUseCase boardReadUseCase, BoardOperationUseCase boardOperationUseCase) {
         this.boardReadUseCase = boardReadUseCase;
+
+        this.boardOperationUseCase = boardOperationUseCase;
     }
 
+    /**
+     * request가 null이라면 CloudLibraryException 발생
+     * 필수값((제목, 내용) 다 입력되었는지 validation check
+     */
     @PostMapping("")
     @ApiOperation("게시글 등록")
-    public ResponseEntity<ApiResponseView<Void>> createBoard(@RequestBody BoardCreateRequest request){
+    public ResponseEntity<Void> createBoard(@Valid @RequestBody BoardCreateRequest request){
 
+        if(ObjectUtils.isEmpty(request)){
+            throw new CloudLibraryException(MessageType.BAD_REQUEST);
+        }
+
+        /**
+         * request --> create command로 변환
+         */
+        var command = BoardOperationUseCase.BoardCreateCommand.builder()
+                .title(request.getTitle())
+                .contents(request.getContents())
+                .libraryName(request.getLibraryName())
+                .type(BoardType.valueOf(request.getType().toUpperCase()).name())
+                .build();
+
+
+        boardOperationUseCase.createBoard(command);
 
         return ResponseEntity.ok().build();
     }

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -48,5 +47,29 @@ public class BoardService implements BoardReadUseCase,BoardOperationUseCase{
     public List<FindBoardResult> getBoardAllList() {
 
         return boardEntityRepository.findAllBoardDesc().stream().map(FindBoardResult::findByBoard).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void createBoard(BoardCreateCommand command) {
+        Board board = Board.builder()
+                .title(command.getTitle())
+                .contents(command.getContents())
+                .libraryName(command.getLibraryName())
+                .type(command.getType())
+                .build();
+
+        boardEntityRepository.save(new BoardEntity(board));
+
+    }
+
+    @Override
+    public FindBoardResult updateBoard(BoardUpdateCommand command) {
+        return null;
+    }
+
+    @Override
+    public void deleteBoard(BoardDeleteCommand command) {
+
     }
 }
