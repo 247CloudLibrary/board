@@ -33,11 +33,12 @@ public class BoardController {
     @Autowired
     public BoardController(BoardReadUseCase boardReadUseCase, BoardOperationUseCase boardOperationUseCase) {
         this.boardReadUseCase = boardReadUseCase;
-
         this.boardOperationUseCase = boardOperationUseCase;
     }
 
     /**
+     * TODO 회원 정보, 도서관 이름 가져오기
+     *
      * request가 null이라면 CloudLibraryException 발생
      * 필수값((제목, 내용) 다 입력되었는지 validation check
      */
@@ -84,15 +85,38 @@ public class BoardController {
 
     }
 
+    /**
+     *
+     * TODO 회원 정보, 도서관 이름 가져오기
+     */
+
     @PutMapping("/{id}")
     @ApiOperation("게시글 수정")
-    public ResponseEntity<ApiResponseView<BoardView>> updateBoard(@PathVariable("id") Long id, @RequestBody BoardUpdateRequest request){
+    public ResponseEntity<ApiResponseView<BoardView>> updateBoard(@PathVariable("id") Long id,@Valid @RequestBody BoardUpdateRequest request){
+
+        if(ObjectUtils.isEmpty(request)){
+            throw new CloudLibraryException(MessageType.BAD_REQUEST);
+        }
+
+        var command =BoardOperationUseCase.BoardUpdateCommand.builder()
+                .id(id)
+                .title(request.getTitle())
+                .contents(request.getContents())
+                .libraryName(request.getLibraryName())
+                .type(BoardType.valueOf(request.getType().toUpperCase()).name())
+                .build();
+
+        var result = boardOperationUseCase.updateBoard(command);
 
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new ApiResponseView<>(new BoardView(result)));
 
     }
 
+    /**
+     *
+     * TODO 회원 정보 가져오기
+     */
     @DeleteMapping("/{id}")
     @ApiOperation("게시글 삭제")
     public ResponseEntity<ApiResponseView<Long>> deleteBoard(@PathVariable("id") Long id){

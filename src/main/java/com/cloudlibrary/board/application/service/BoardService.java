@@ -49,6 +49,10 @@ public class BoardService implements BoardReadUseCase,BoardOperationUseCase{
         return boardEntityRepository.findAllBoardDesc().stream().map(FindBoardResult::findByBoard).collect(Collectors.toList());
     }
 
+
+    /**
+     *TODO adminId, adminName 추가
+     */
     @Override
     @Transactional
     public void createBoard(BoardCreateCommand command) {
@@ -60,13 +64,29 @@ public class BoardService implements BoardReadUseCase,BoardOperationUseCase{
                 .build();
 
         boardEntityRepository.save(new BoardEntity(board));
-
     }
 
     @Override
+    @Transactional
     public FindBoardResult updateBoard(BoardUpdateCommand command) {
-        return null;
+
+        BoardEntity boardEntity = boardEntityRepository.findById(command.getId()).stream().findAny().orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
+
+        Board updateContent = Board.builder()
+                .title(command.getTitle())
+                .contents(command.getContents())
+                .libraryName(command.getLibraryName())
+                .type(command.getType())
+                .build();
+
+        boardEntity.update(updateContent);
+
+        Board result = boardEntity.toBoard();
+
+        return FindBoardResult.findByBoard(result);
+
     }
+
 
     @Override
     public void deleteBoard(BoardDeleteCommand command) {
