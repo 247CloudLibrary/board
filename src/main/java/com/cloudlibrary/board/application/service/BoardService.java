@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class BoardService implements BoardReadUseCase{
+public class BoardService implements BoardReadUseCase,BoardOperationUseCase{
 
     private final BoardEntityRepository boardEntityRepository;
 
@@ -27,18 +27,20 @@ public class BoardService implements BoardReadUseCase{
     }
 
     /**
-     * @exception CloudLibraryException MessageType.NOT_FOUND 게시글 찾을 수 없음
+     * @throws CloudLibraryException MessageType.NOT_FOUND 게시글 찾을 수 없음
+     * boardEntity.increaseHits() --> 게시글 조회할 때마다 readcount 1씩 증가
      */
     @Override
+    @Transactional
     public FindBoardResult getBoard(BoardFindQuery query) {
 
-        Optional<Board> result = boardEntityRepository.findById(query.getBoardId()).stream().map(BoardEntity::toBoard).findFirst();
+        BoardEntity boardEntity = boardEntityRepository.findById(query.getBoardId()).orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
+        boardEntity.increaseHits();
 
-        if(result.isEmpty()){
-            throw new CloudLibraryException(MessageType.NOT_FOUND);
-        }
+        Board result = boardEntity.toBoard();
 
-       return FindBoardResult.findByBoard(result.get());
+       return FindBoardResult.findByBoard(result);
+
     }
 
     @Transactional(readOnly=true)
