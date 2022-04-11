@@ -30,6 +30,7 @@ public interface BoardOperationUseCase {
     @Getter
     @ToString
     class BoardUpdateCommand {
+        private final long id;
         private final long adminId;
         private final String adminName;
         private final String type;
