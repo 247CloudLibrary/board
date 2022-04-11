@@ -68,4 +68,15 @@ public class BoardEntity extends BaseTimeEntity {
     public void increaseHits(){
         this.readCounts++;
     }
+
+
+    /**
+     * 게시글 수정
+     */
+    public void update(Board board){
+        this.libraryName = board.getLibraryName();
+        this.type = board.getType();
+        this.title = board.getTitle();
+        this.contents = board.getContents();
+    }
 }
