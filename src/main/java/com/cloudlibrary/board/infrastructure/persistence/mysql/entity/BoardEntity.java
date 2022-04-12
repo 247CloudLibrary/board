@@ -12,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Entity
+@Table(name = "board")
 public class BoardEntity extends BaseTimeEntity {
 
     @Id
