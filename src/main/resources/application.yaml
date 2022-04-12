@@ -9,6 +9,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
 feign:
   client:
     config:
@@ -16,6 +19,7 @@ feign:
         connectTimeout: 5000
         readTimeout: 5000
         loggerLevel: full
+
 
 ---
 spring:

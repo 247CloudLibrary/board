@@ -12,12 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class BoardService implements BoardReadUseCase{
+public class BoardService implements BoardReadUseCase,BoardOperationUseCase{
 
     private final BoardEntityRepository boardEntityRepository;
 
@@ -27,18 +26,20 @@ public class BoardService implements BoardReadUseCase{
     }
 
     /**
-     * @exception CloudLibraryException MessageType.NOT_FOUND 게시글 찾을 수 없음
+     * @throws CloudLibraryException MessageType.NOT_FOUND 게시글 찾을 수 없음
+     * boardEntity.increaseHits() --> 게시글 조회할 때마다 readcount 1씩 증가
      */
     @Override
+    @Transactional
     public FindBoardResult getBoard(BoardFindQuery query) {
 
-        Optional<Board> result = boardEntityRepository.findById(query.getBoardId()).stream().map(BoardEntity::toBoard).findFirst();
+        BoardEntity boardEntity = boardEntityRepository.findById(query.getBoardId()).orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
+        boardEntity.increaseHits();
 
-        if(result.isEmpty()){
-            throw new CloudLibraryException(MessageType.NOT_FOUND);
-        }
+        Board result = boardEntity.toBoard();
 
-       return FindBoardResult.findByBoard(result.get());
+       return FindBoardResult.findByBoard(result);
+
     }
 
     @Transactional(readOnly=true)
@@ -46,5 +47,49 @@ public class BoardService implements BoardReadUseCase{
     public List<FindBoardResult> getBoardAllList() {
 
         return boardEntityRepository.findAllBoardDesc().stream().map(FindBoardResult::findByBoard).collect(Collectors.toList());
+    }
+
+
+    /**
+     *TODO adminId, adminName 추가
+     */
+    @Override
+    @Transactional
+    public void createBoard(BoardCreateCommand command) {
+        Board board = Board.builder()
+                .title(command.getTitle())
+                .contents(command.getContents())
+                .libraryName(command.getLibraryName())
+                .type(command.getType())
+                .build();
+
+        boardEntityRepository.save(new BoardEntity(board));
+    }
+
+    @Override
+    @Transactional
+    public FindBoardResult updateBoard(BoardUpdateCommand command) {
+
+        BoardEntity boardEntity = boardEntityRepository.findById(command.getId()).stream().findAny().orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
+
+        Board updateContent = Board.builder()
+                .title(command.getTitle())
+                .contents(command.getContents())
+                .libraryName(command.getLibraryName())
+                .type(command.getType())
+                .build();
+
+        boardEntity.update(updateContent);
+
+        Board result = boardEntity.toBoard();
+
+        return FindBoardResult.findByBoard(result);
+
+    }
+
+
+    @Override
+    public void deleteBoard(BoardDeleteCommand command) {
+
     }
 }
