@@ -9,6 +9,13 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
 
 ---
 spring:
