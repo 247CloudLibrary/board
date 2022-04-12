@@ -2,9 +2,14 @@ package com.cloudlibrary.board.ui.controller;
 
 import com.cloudlibrary.board.application.service.BoardOperationUseCase;
 import com.cloudlibrary.board.application.service.BoardReadUseCase;
+
 import com.cloudlibrary.board.exception.CloudLibraryException;
 import com.cloudlibrary.board.exception.MessageType;
 import com.cloudlibrary.board.infrastructure.persistence.mysql.entity.BoardType;
+
+import com.cloudlibrary.board.infrastructure.feign.response.AdminResponse;
+import com.cloudlibrary.board.infrastructure.feign.service.FeignAdminService;
+
 import com.cloudlibrary.board.ui.requestBody.BoardCreateRequest;
 import com.cloudlibrary.board.ui.requestBody.BoardUpdateRequest;
 import com.cloudlibrary.board.ui.view.ApiResponseView;
@@ -30,9 +35,12 @@ public class BoardController {
     private final BoardReadUseCase boardReadUseCase;
     private final BoardOperationUseCase boardOperationUseCase;
 
+    private final FeignAdminService feignAdminService;
+
     @Autowired
-    public BoardController(BoardReadUseCase boardReadUseCase, BoardOperationUseCase boardOperationUseCase) {
+    public BoardController(BoardReadUseCase boardReadUseCase, BoardOperationUseCase boardOperationUseCase, FeignAdminService feignAdminService) {
         this.boardReadUseCase = boardReadUseCase;
+        this.feignAdminService = feignAdminService;
         this.boardOperationUseCase = boardOperationUseCase;
     }
 
