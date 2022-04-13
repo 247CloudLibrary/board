@@ -2,9 +2,10 @@ spring:
   profiles:
     active: local
   datasource:
-    url: jdbc:h2:tcp://localhost/~/board
-    driver-class-name: org.h2.Driver
-    username: sa
+    url: jdbc:mysql://board-db.cscg6f0frodu.us-east-1.rds.amazonaws.com:3306/board?serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: qwer1234
   jpa:
     show-sql: true
     hibernate:
