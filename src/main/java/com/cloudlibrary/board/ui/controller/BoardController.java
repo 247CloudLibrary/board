@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@CrossOrigin(origins = "*")
 @Slf4j
 @RestController
 @Api(value="보드 API")
