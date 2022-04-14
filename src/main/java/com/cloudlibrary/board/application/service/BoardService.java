@@ -90,6 +90,9 @@ public class BoardService implements BoardReadUseCase,BoardOperationUseCase{
 
     @Override
     public void deleteBoard(BoardDeleteCommand command) {
+        BoardEntity board = boardEntityRepository.findById(command.getId())
+                .orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
 
+        boardEntityRepository.delete(board);
     }
 }
