@@ -44,6 +44,11 @@ public class BoardController {
         this.boardOperationUseCase = boardOperationUseCase;
     }
 
+    @GetMapping("/health-check")
+    public ResponseEntity<String> check() {
+        return ResponseEntity.ok("health-check");
+    }
+
     /**
      * TODO 회원 정보, 도서관 이름 가져오기
      *
