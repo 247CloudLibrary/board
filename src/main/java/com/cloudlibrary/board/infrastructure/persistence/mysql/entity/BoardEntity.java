@@ -12,24 +12,26 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Entity
+@Table(name = "board")
 public class BoardEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable=false)
     private long adminId;
-
+    @Column(length = 500, nullable=false)
     private String adminName;
 
     private String libraryName;
-
+    @Column(nullable=false)
     private String type;
 
-    @Column(length = 500)
+    @Column(length = 500, nullable=false)
     private String title;
 
-    @Column(length = 500 )
+    @Column(length = 500, nullable=false)
     private String contents;
 
     @ColumnDefault("0")
