@@ -2,25 +2,26 @@ spring:
   profiles:
     active: local
   datasource:
-    url: jdbc:mysql://board-db.cscg6f0frodu.us-east-1.rds.amazonaws.com:3306/board?serverTimezone=UTC&characterEncoding=UTF-8
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: qwer1234
+    hikari:
+      jdbc-url: cloudlibrary/rds/board/mysql
+      driver-class-name: com.amazonaws.secretsmanager.sql.AWSSecretsManagerMySQLDriver
+      username: cloudlibrary/rds/board/mysql
+
   jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: update
+
 
 feign:
   client:
     config:
       default:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: full
-
+        connectTimeout: 100
+        readTimeout: 1000
+        loggerLevel: BASIC
 
 ---
 spring:
