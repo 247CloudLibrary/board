@@ -8,24 +8,22 @@ phases:
     commands:
       - echo Current Build number is v${CODEBUILD_BUILD_NUMBER}
       - echo Loggin in to Amazon ECR...
+      - aws --version
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t boardapp:v${CODEBUILD_BUILD_NUMBER} .
-      - docker tag boardapp:v${CODEBUILD_BUILD_NUMBER} ${ECR_REPOSITORY_URI}:v${CODEBUILD_BUILD_NUMBER}
+      - ./gradlew board:bootBuildImage --imageName=${IMAGE_NAME}
+      - docker tag ${IMAGE_NAME} ${ECR_REPOSITORY_URI}/${IMAGE_NAME}:v${CODEBUILD_BUILD_NUMBER}
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push ${ECR_REPOSITORY_URI}:v${CODEBUILD_BUILD_NUMBER}
+      - docker push ${ECR_REPOSITORY_URI}/${IMAGE_NAME}:v${CODEBUILD_BUILD_NUMBER}
       - echo Writing image definitions file...
-      - printf '[{"name":"board-container","imageUri":"%s"}]' ${ECR_REPOSITORY_URI}:v${CODEBUILD_BUILD_NUMBER} > imagedefinitions.json
-
+      - printf '[{"name":"board-container","imageUri":"%s"}]' ${ECR_REPOSITORY_URI}/${IMAGE_NAME}:v${CODEBUILD_BUILD_NUMBER} > imagedefinitions.json
+      - cat imagedefinitions.json
 artifacts:
   files:
     - imagedefinitions.json
-    #cache:
-    #paths:
-    # - paths
