@@ -33,7 +33,6 @@ public class BoardController {
 
     private final BoardReadUseCase boardReadUseCase;
     private final BoardOperationUseCase boardOperationUseCase;
-
     private final FeignAdminService feignAdminService;
 
     @Autowired
@@ -131,8 +130,9 @@ public class BoardController {
      */
     @DeleteMapping("/{id}")
     @ApiOperation("게시글 삭제")
-    public ResponseEntity<ApiResponseView<Long>> deleteBoard(@PathVariable("id") Long id){
-
+    public ResponseEntity<Void> deleteBoard(@PathVariable("id") Long id){
+        var command = BoardOperationUseCase.BoardDeleteCommand.builder().id(id).build();
+        boardOperationUseCase.deleteBoard(command);
         return ResponseEntity.ok().build();
     }
 }
