@@ -21,7 +21,9 @@ feign:
       default:
         connectTimeout: 100
         readTimeout: 1000
-        loggerLevel: BASIC
+        loggerLevel: HEADERS
+  admin-api:
+    url: "ecs-alb-167470959.us-east-1.elb.amazonaws.com/v1"
 
 ---
 spring:
