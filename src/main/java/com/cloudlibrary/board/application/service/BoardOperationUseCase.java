@@ -1,6 +1,5 @@
 package com.cloudlibrary.board.application.service;
 
-import com.cloudlibrary.board.infrastructure.persistence.mysql.entity.BoardType;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

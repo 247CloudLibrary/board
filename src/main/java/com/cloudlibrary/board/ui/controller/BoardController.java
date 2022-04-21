@@ -5,10 +5,9 @@ import com.cloudlibrary.board.application.service.BoardReadUseCase;
 
 import com.cloudlibrary.board.exception.CloudLibraryException;
 import com.cloudlibrary.board.exception.MessageType;
-import com.cloudlibrary.board.infrastructure.persistence.mysql.entity.BoardType;
+import com.cloudlibrary.board.application.domain.BoardType;
 
-import com.cloudlibrary.board.infrastructure.feign.response.AdminResponse;
-import com.cloudlibrary.board.infrastructure.feign.service.FeignAdminService;
+import com.cloudlibrary.board.infrastructure.query.http.feign.service.FeignAdminService;
 
 import com.cloudlibrary.board.ui.requestBody.BoardCreateRequest;
 import com.cloudlibrary.board.ui.requestBody.BoardUpdateRequest;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@CrossOrigin(origins = "*")
 @Slf4j
 @RestController
 @Api(value="보드 API")
@@ -41,6 +40,11 @@ public class BoardController {
         this.boardReadUseCase = boardReadUseCase;
         this.feignAdminService = feignAdminService;
         this.boardOperationUseCase = boardOperationUseCase;
+    }
+
+    @GetMapping("/health-check")
+    public ResponseEntity<String> check() {
+        return ResponseEntity.ok("health-check");
     }
 
     /**
