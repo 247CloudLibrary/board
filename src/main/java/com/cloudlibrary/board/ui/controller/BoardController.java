@@ -6,9 +6,6 @@ import com.cloudlibrary.board.application.service.BoardReadUseCase;
 import com.cloudlibrary.board.exception.CloudLibraryException;
 import com.cloudlibrary.board.exception.MessageType;
 import com.cloudlibrary.board.application.domain.BoardType;
-
-import com.cloudlibrary.board.infrastructure.query.http.feign.service.FeignAdminService;
-
 import com.cloudlibrary.board.ui.requestBody.BoardCreateRequest;
 import com.cloudlibrary.board.ui.requestBody.BoardUpdateRequest;
 import com.cloudlibrary.board.ui.view.ApiResponseView;
@@ -33,12 +30,10 @@ public class BoardController {
 
     private final BoardReadUseCase boardReadUseCase;
     private final BoardOperationUseCase boardOperationUseCase;
-    private final FeignAdminService feignAdminService;
 
     @Autowired
-    public BoardController(BoardReadUseCase boardReadUseCase, BoardOperationUseCase boardOperationUseCase, FeignAdminService feignAdminService) {
+    public BoardController(BoardReadUseCase boardReadUseCase, BoardOperationUseCase boardOperationUseCase) {
         this.boardReadUseCase = boardReadUseCase;
-        this.feignAdminService = feignAdminService;
         this.boardOperationUseCase = boardOperationUseCase;
     }
 
