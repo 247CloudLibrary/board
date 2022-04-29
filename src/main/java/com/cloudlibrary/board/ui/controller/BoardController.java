@@ -7,7 +7,6 @@ import com.cloudlibrary.board.exception.CloudLibraryException;
 import com.cloudlibrary.board.exception.MessageType;
 import com.cloudlibrary.board.application.domain.BoardType;
 
-import com.cloudlibrary.board.infrastructure.query.http.feign.service.FeignAdminService;
 
 import com.cloudlibrary.board.ui.requestBody.BoardCreateRequest;
 import com.cloudlibrary.board.ui.requestBody.BoardUpdateRequest;
@@ -33,12 +32,11 @@ public class BoardController {
 
     private final BoardReadUseCase boardReadUseCase;
     private final BoardOperationUseCase boardOperationUseCase;
-    private final FeignAdminService feignAdminService;
+
 
     @Autowired
-    public BoardController(BoardReadUseCase boardReadUseCase, BoardOperationUseCase boardOperationUseCase, FeignAdminService feignAdminService) {
+    public BoardController(BoardReadUseCase boardReadUseCase, BoardOperationUseCase boardOperationUseCase) {
         this.boardReadUseCase = boardReadUseCase;
-        this.feignAdminService = feignAdminService;
         this.boardOperationUseCase = boardOperationUseCase;
     }
 
@@ -55,8 +53,7 @@ public class BoardController {
      */
     @PostMapping("")
     @ApiOperation("게시글 등록")
-    public ResponseEntity<Void> createBoard(@Valid @RequestBody BoardCreateRequest request){
-
+    public ResponseEntity<Void> createBoard(@Valid @RequestBody BoardCreateRequest request) {
         if(ObjectUtils.isEmpty(request)){
             throw new CloudLibraryException(MessageType.BAD_REQUEST);
         }
@@ -70,7 +67,6 @@ public class BoardController {
                 .libraryName(request.getLibraryName())
                 .type(BoardType.valueOf(request.getType().toUpperCase()).name())
                 .build();
-
 
         boardOperationUseCase.createBoard(command);
 
@@ -119,13 +115,10 @@ public class BoardController {
 
         var result = boardOperationUseCase.updateBoard(command);
 
-
         return ResponseEntity.ok(new ApiResponseView<>(new BoardView(result)));
-
     }
 
     /**
-     *
      * TODO 회원 정보 가져오기
      */
     @DeleteMapping("/{id}")

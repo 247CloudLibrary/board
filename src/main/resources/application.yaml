@@ -14,7 +14,6 @@ spring:
     hibernate:
       ddl-auto: update
 
-
 feign:
   client:
     config:
@@ -23,6 +22,10 @@ feign:
         readTimeout: 1000
         loggerLevel: BASIC
 
+jwt:
+  header: Authorization
+  secret: usertokensecretcloudlibraryhhjsisywsyjsdkyjfightingkoreausertokensecretcloudlibraryhhjsisywsyjsdkyjfightingkorea
+  token-validity-in-seconds: 86400000
 ---
 spring:
   application:
