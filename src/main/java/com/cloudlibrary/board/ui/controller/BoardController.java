@@ -50,8 +50,7 @@ public class BoardController {
      */
     @PostMapping("")
     @ApiOperation("게시글 등록")
-    public ResponseEntity<Void> createBoard(@Valid @RequestBody BoardCreateRequest request){
-
+    public ResponseEntity<Void> createBoard(@Valid @RequestBody BoardCreateRequest request) {
         if(ObjectUtils.isEmpty(request)){
             throw new CloudLibraryException(MessageType.BAD_REQUEST);
         }
@@ -65,7 +64,6 @@ public class BoardController {
                 .libraryName(request.getLibraryName())
                 .type(BoardType.valueOf(request.getType().toUpperCase()).name())
                 .build();
-
 
         boardOperationUseCase.createBoard(command);
 
@@ -114,13 +112,10 @@ public class BoardController {
 
         var result = boardOperationUseCase.updateBoard(command);
 
-
         return ResponseEntity.ok(new ApiResponseView<>(new BoardView(result)));
-
     }
 
     /**
-     *
      * TODO 회원 정보 가져오기
      */
     @DeleteMapping("/{id}")
