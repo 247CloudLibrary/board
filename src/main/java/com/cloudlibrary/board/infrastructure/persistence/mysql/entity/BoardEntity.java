@@ -20,6 +20,7 @@ public class BoardEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+
 //    @Column(nullable = false)
     private long adminId;
 
