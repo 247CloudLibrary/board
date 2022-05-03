@@ -33,7 +33,6 @@ public class BoardService implements BoardReadUseCase,BoardOperationUseCase{
     public FindBoardResult getBoard(BoardFindQuery query) {
 
         BoardEntity boardEntity = boardEntityRepository.findById(query.getBoardId()).orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
-//        boardEntity.increaseHits();
 
         Board result = boardEntity.toBoard();
 
