@@ -17,7 +17,6 @@ public interface BoardOperationUseCase {
     @ToString
     class BoardCreateCommand {
         private final long adminId;
-        private final String adminName;
         private final String type;
         private final String title;
         private final String contents;
@@ -31,7 +30,6 @@ public interface BoardOperationUseCase {
     class BoardUpdateCommand {
         private final long id;
         private final long adminId;
-        private final String adminName;
         private final String type;
         private final String title;
         private final String contents;

@@ -34,7 +34,6 @@ public interface BoardReadUseCase {
     class FindBoardResult {
         private final long id;
         private final long adminId;
-        private final String adminName;
         private final String type;
         private final String title;
         private final String contents;
@@ -48,7 +47,6 @@ public interface BoardReadUseCase {
             return FindBoardResult.builder()
                     .id(board.getId())
                     .adminId(board.getAdminId())
-                    .adminName(board.getAdminName())
                     .type(board.getType())
                     .title(board.getTitle())
                     .contents(board.getContents())

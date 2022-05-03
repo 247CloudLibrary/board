@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 public class Board {
     private final long id;
     private final long adminId;
-    private final String adminName;
     private final String type;
     private final String title;
     private final String contents;

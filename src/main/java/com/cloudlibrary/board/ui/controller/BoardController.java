@@ -43,8 +43,6 @@ public class BoardController {
     }
 
     /**
-     * TODO 회원 정보, 도서관 이름 가져오기
-     *
      * request가 null이라면 CloudLibraryException 발생
      * 필수값((제목, 내용) 다 입력되었는지 validation check
      */
@@ -55,10 +53,9 @@ public class BoardController {
             throw new CloudLibraryException(MessageType.BAD_REQUEST);
         }
 
-        /**
-         * request --> create command로 변환
-         */
+
         var command = BoardOperationUseCase.BoardCreateCommand.builder()
+                .adminId(request.getAdminId())
                 .title(request.getTitle())
                 .contents(request.getContents())
                 .libraryName(request.getLibraryName())
@@ -89,10 +86,7 @@ public class BoardController {
 
     }
 
-    /**
-     *
-     * TODO 회원 정보, 도서관 이름 가져오기
-     */
+
 
     @PutMapping("/{id}")
     @ApiOperation("게시글 수정")
@@ -104,6 +98,7 @@ public class BoardController {
 
         var command =BoardOperationUseCase.BoardUpdateCommand.builder()
                 .id(id)
+                .adminId(request.getAdminId())
                 .title(request.getTitle())
                 .contents(request.getContents())
                 .libraryName(request.getLibraryName())
@@ -115,9 +110,7 @@ public class BoardController {
         return ResponseEntity.ok(new ApiResponseView<>(new BoardView(result)));
     }
 
-    /**
-     * TODO 회원 정보 가져오기
-     */
+
     @DeleteMapping("/{id}")
     @ApiOperation("게시글 삭제")
     public ResponseEntity<Void> deleteBoard(@PathVariable("id") Long id){
