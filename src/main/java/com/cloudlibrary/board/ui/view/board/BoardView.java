@@ -19,8 +19,6 @@ public class BoardView {
     private final long id;
     @ApiModelProperty(value="작성자 id")
     private final long adminId;
-    @ApiModelProperty(value="작성자 이름")
-    private final String adminName;
     @ApiModelProperty(value="작성자의 소속 도서관")
     private final String libraryName;
     @ApiModelProperty(value="게시글 타입")
@@ -41,7 +39,6 @@ public class BoardView {
     public BoardView(BoardReadUseCase.FindBoardResult result) {
         this.id = result.getId();
         this.adminId =result.getAdminId();
-        this.adminName = result.getAdminName();
         this.libraryName= result.getLibraryName();
         this.type = result.getType();
         this.title = result.getTitle();
