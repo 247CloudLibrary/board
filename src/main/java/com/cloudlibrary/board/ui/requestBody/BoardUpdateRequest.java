@@ -13,6 +13,8 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class BoardUpdateRequest {
 
+    private Long adminId;
+
     @NotEmpty(message = "타입 지정 필수입니다")
     private String type;
 

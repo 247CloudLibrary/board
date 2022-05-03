@@ -21,11 +21,8 @@ public class BoardEntity extends BaseTimeEntity {
     private long id;
 
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private long adminId;
-
-//    @Column(nullable = false)
-    private String adminName;
 
     @Column(nullable = false)
     private String libraryName;
@@ -48,7 +45,6 @@ public class BoardEntity extends BaseTimeEntity {
         return Board.builder()
                 .id(this.id)
                 .adminId(this.adminId)
-                .adminName(this.adminName)
                 .libraryName(this.libraryName)
                 .type(this.type.getType())
                 .title(this.title)
@@ -62,7 +58,6 @@ public class BoardEntity extends BaseTimeEntity {
 
     public BoardEntity(Board board) {
         this.adminId = board.getAdminId();
-        this.adminName = board.getAdminName();
         this.libraryName = board.getLibraryName();
         this.type = BoardType.find(board.getType());
         this.title = board.getTitle();

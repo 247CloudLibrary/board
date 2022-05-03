@@ -57,6 +57,7 @@ public class BoardService implements BoardReadUseCase,BoardOperationUseCase{
     @Transactional
     public void createBoard(BoardCreateCommand command) {
         Board board = Board.builder()
+                .adminId(command.getAdminId())
                 .title(command.getTitle())
                 .contents(command.getContents())
                 .libraryName(command.getLibraryName())
@@ -73,6 +74,7 @@ public class BoardService implements BoardReadUseCase,BoardOperationUseCase{
         BoardEntity boardEntity = boardEntityRepository.findById(command.getId()).stream().findAny().orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
 
         Board updateContent = Board.builder()
+                .adminId(command.getAdminId())
                 .title(command.getTitle())
                 .contents(command.getContents())
                 .libraryName(command.getLibraryName())
