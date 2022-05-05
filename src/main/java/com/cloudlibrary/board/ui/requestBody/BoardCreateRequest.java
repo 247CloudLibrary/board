@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @ToString
 @NoArgsConstructor
 public class BoardCreateRequest {
-    @NotEmpty(message = "타입 지정 필수입니다")
+
     private Long adminId;
 
     @NotEmpty(message = "타입 지정 필수입니다")
