@@ -30,13 +30,15 @@ public class BoardService implements BoardReadUseCase,BoardOperationUseCase{
      * boardEntity.increaseHits() --> 게시글 조회할 때마다 readcount 1씩 증가
      */
     @Override
+    @Transactional
     public FindBoardResult getBoard(BoardFindQuery query) {
 
         BoardEntity boardEntity = boardEntityRepository.findById(query.getBoardId()).orElseThrow(() -> new CloudLibraryException(MessageType.NOT_FOUND));
+        boardEntity.increaseHits();
 
         Board result = boardEntity.toBoard();
 
-       return FindBoardResult.findByBoard(result);
+        return FindBoardResult.findByBoard(result);
 
     }
 
